@@ -4,10 +4,14 @@ import fitz  # PyMuPDF
 from pdf2image import convert_from_path
 import pytesseract
 from io import BytesIO
+import os
 
 # Set paths for OCR
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-POPPLER_PATH = r"C:\Program Files\poppler\poppler-24.08.0\Library\bin"
+pytesseract.pytesseract.tesseract_cmd = os.getenv(
+    "TESSERACT_PATH", r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+)
+POPPLER_PATH = os.getenv("POPPLER_PATH", None)  # Default to None for Linux (Render)
+
 
 # Replace with actual tokens
 BOT_TOKEN = "7000898266:AAGOuOJVGZ5zkvd_wgtWZWrnCE7TNgjdxDM"
