@@ -8,7 +8,7 @@ import os
 
 # Set paths for OCR
 pytesseract.pytesseract.tesseract_cmd = os.getenv(
-    "TESSERACT_PATH", r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+    "TESSERACT_PATH", "/usr/bin/tesseract"
 )
 POPPLER_PATH = os.getenv("POPPLER_PATH", None)  # Default to None for Linux (Render)
 
