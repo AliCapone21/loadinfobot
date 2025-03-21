@@ -11,10 +11,10 @@ POPPLER_PATH = r"C:\Program Files\poppler\poppler-24.08.0\Library\bin"
 
 # Replace with actual tokens
 BOT_TOKEN = "7000898266:AAGOuOJVGZ5zkvd_wgtWZWrnCE7TNgjdxDM"
-GEMINI_API_KEY = "AIzaSyCvzwtw0D8VPfjD9pnsczuMHaUAWlgILSg"
+GEMINI_API_KEY = "AIzaSyDZR8EthTy4f6xei9lK14-8cZ231wlIajo"
 
 bot = telebot.TeleBot(BOT_TOKEN)
-GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key={GEMINI_API_KEY}"
+GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
 
 # Function to extract text (OCR for non-selectable PDFs)
 def extract_text_from_pdf(pdf_path):
@@ -46,7 +46,7 @@ def get_load_info_from_gemini(text):
 [Broker's Company name]
 
 Load# [Load Number not MC]
-PU: [Pickup Reference Number]
+PU: [Pickup Reference Number, Reference Number:]
 
 PU: [Facility Name]
 [Street Address]
@@ -60,20 +60,26 @@ TIME: [Delivery Date & Time]
 
 TOTAL MILE: [Mileage]
 
-RATE: [Rate]
+RATE: [Total Rate]
 
-    If any field is missing, return "N/A". Here is the document text:
-    {text}  
+If any field is missing, return "N/A". Here is the document text:
+{text}
     """
 
-    payload = {"contents": [{"parts": [{"text": prompt}]}]}
+    payload = {
+        "contents": [{
+            "parts": [{"text": prompt}]
+        }]
+    }
+
+    headers = {"Content-Type": "application/json"}
 
     try:
-        response = requests.post(GEMINI_API_URL, json=payload)
+        response = requests.post(GEMINI_API_URL, json=payload, headers=headers)
         response.raise_for_status()
         data = response.json()
 
-        # Extract AI response correctly
+        # Extract AI response
         extracted_info = (
             data.get("candidates", [{}])[0]
             .get("content", {})
@@ -88,13 +94,13 @@ RATE: [Rate]
         # Append important conditions
         conditions = """
 
-✅ Drivers will be charged ($150) for every late for PU and DEL If He/She doesn't provide us with the issue of being late. 
+✅ Drivers will be charged ($150) for every late PU and DEL if they do not inform us of the issue.
 
-✅ Drivers will be charged ($150) for not using relay app properly.
+✅ Drivers will be charged ($150) for not using the relay app properly.
 
-✅ Trailer/seal pictures, all pages of BOL, and POD must be sent before checkout every time. Failure of sending these required things, driver will be charged for $100
+✅ Trailer/seal pictures, all pages of BOL, and POD must be sent before checkout every time. Failure to send these will result in a $100 charge.
 
-✅ Please let us know if you stop or if you have any issues
+✅ Please let us know if you stop or if you have any issues.
         """
 
         return extracted_info + conditions
