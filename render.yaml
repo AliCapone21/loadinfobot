@@ -1,0 +1,15 @@
+services:
+  - type: worker
+    name: loadinfo
+    env: python
+    buildCommand: ""
+    startCommand: python loadinfo.py
+    envVars:
+      - key: BOT_TOKEN
+        value: 7000898266:AAGOuOJVGZ5zkvd_wgtWZWrnCE7TNgjdxDM
+      - key: GEMINI_API_KEY
+        value: AIzaSyDZR8EthTy4f6xei9lK14-8cZ231wlIajo
+      - key: TESSERACT_PATH
+        value: /usr/bin/tesseract
+      - key: POPPLER_PATH
+        value: /usr/bin
