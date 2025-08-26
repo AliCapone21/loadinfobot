@@ -8,14 +8,14 @@ import os
 
 # Set paths for OCR
 pytesseract.pytesseract.tesseract_cmd = os.getenv(
-    "TESSERACT_PATH", "/usr/bin/tesseract"
+    "TESSERACT_PATH", r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 )
 POPPLER_PATH = os.getenv("POPPLER_PATH", None)  # Default to None for Linux (Render)
 
 
 # Replace with actual tokens
-BOT_TOKEN = "7000898266:AAGOuOJVGZ5zkvd_wgtWZWrnCE7TNgjdxDM"
-GEMINI_API_KEY = "AIzaSyDZR8EthTy4f6xei9lK14-8cZ231wlIajo"
+BOT_TOKEN = ""
+GEMINI_API_KEY = ""
 
 bot = telebot.TeleBot(BOT_TOKEN)
 GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
@@ -44,10 +44,10 @@ def extract_text_from_pdf(pdf_path):
 # Function to call Gemini AI
 def get_load_info_from_gemini(text):
     prompt = f"""
-    Extract the load details and format them exactly like this:
+    Extract the load details and format them exactly like this and if it is multi stop or multi pick up write them as well:
 
     Format:
-[Broker's Company name]
+Broker's Company name
 
 Load# [Load Number not MC]
 PU: [Pickup Reference Number, Reference Number:]
@@ -98,9 +98,9 @@ If any field is missing, return "N/A". Here is the document text:
         # Append important conditions
         conditions = """
 
-✅ Drivers will be charged ($150) for every late PU and DEL if they do not inform us of the issue.
+✅ Drivers will be charged ($200) for every late PU and DEL if they do not inform us of the issue.
 
-✅ Drivers will be charged ($150) for not using the relay app properly.
+✅ Drivers will be charged ($150) for not using the relay and tracking app properly.
 
 ✅ Trailer/seal pictures, all pages of BOL, and POD must be sent before checkout every time. Failure to send these will result in a $100 charge.
 
