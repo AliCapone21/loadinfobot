@@ -1,5 +1,0 @@
-pyTelegramBotAPI
-requests
-pytesseract
-pdf2image
-PyMuPDF
