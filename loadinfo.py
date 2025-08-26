@@ -14,8 +14,8 @@ POPPLER_PATH = os.getenv("POPPLER_PATH", None)  # Default to None for Linux (Ren
 
 
 # Replace with actual tokens
-BOT_TOKEN = ""
-GEMINI_API_KEY = ""
+BOT_TOKEN = "7000898266:AAGOuOJVGZ5zkvd_wgtWZWrnCE7TNgjdxDM"
+GEMINI_API_KEY = "AIzaSyBRlsXrR4xUXYyVPQV1a_YXL5CwHOrbYQY"
 
 bot = telebot.TeleBot(BOT_TOKEN)
 GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
